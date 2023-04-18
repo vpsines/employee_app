@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CustomButton extends StatelessWidget {
@@ -24,7 +25,7 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: width ?? double.infinity,
-      height: height ?? 30,
+      height: height ?? 40.h,
       child: TextButton(
           onPressed: onPressed,
           style: TextButton.styleFrom(
@@ -34,7 +35,7 @@ class CustomButton extends StatelessWidget {
           child: Text(
             buttonText,
             style: GoogleFonts.roboto(
-              fontSize: 14,
+              fontSize: 14.sp,
               fontWeight: FontWeight.w500,
               color: textColor,
             ),
