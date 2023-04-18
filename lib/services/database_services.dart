@@ -9,9 +9,6 @@ class DatabaseServices {
     try {
       return await databaseHelper.insert(employee.toData());
     } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
       return -1;
     }
   }
@@ -19,11 +16,9 @@ class DatabaseServices {
   Future<List<Employee>> getEmployees() async {
     try {
       final result = await databaseHelper.getAllRows();
-      return result.map((e) => Employee.fromJson(e)).toList();
+      final employees = result.map((e) => Employee.fromJson(e)).toList();
+      return employees;
     } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
       return [];
     }
   }
@@ -32,9 +27,6 @@ class DatabaseServices {
     try {
       return await databaseHelper.update(employee.id, employee.toMap());
     } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
       return -1;
     }
   }
@@ -42,13 +34,10 @@ class DatabaseServices {
   Future<int> delete(Employee employee) async {
     try {
       var data = employee.toMap();
-      data['isDeleted'] = true;
+      data['isDeleted'] = 1;
 
       return await databaseHelper.update(employee.id, data);
     } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
       return -1;
     }
   }
@@ -56,13 +45,10 @@ class DatabaseServices {
   Future<int> restoreEmployee(Employee employee) async {
     try {
       var data = employee.toMap();
-      data['isDeleted'] = false;
+      data['isDeleted'] = 0;
 
       return await databaseHelper.update(employee.id, data);
     } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
       return -1;
     }
   }
