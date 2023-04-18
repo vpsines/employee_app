@@ -1,5 +1,4 @@
 import 'package:employee_app/constants/custom_textstyles.dart';
-import 'package:employee_app/utils/date_utils.dart';
 import 'package:employee_app/widgets/dialogs/date_picker_dialog.dart';
 import 'package:flutter/material.dart';
 
@@ -9,14 +8,24 @@ class CustomDatePicker extends StatelessWidget {
   final IconData? leadingIcon;
   final double? width;
   final double? height;
+  final SelectableDayPredicate? selectableDayPredicate;
+  final DateTime? firstDate;
+  final DateTime? initialDate;
+  final Function(DateTime?) onSave;
+  final bool isRequired;
 
   const CustomDatePicker(
       {super.key,
       required this.controller,
       required this.hintText,
+      required this.initialDate,
+      required this.onSave,
       this.leadingIcon,
       this.width,
-      this.height});
+      this.height,
+      this.selectableDayPredicate,
+      this.firstDate,
+      this.isRequired = true});
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -25,17 +34,16 @@ class CustomDatePicker extends StatelessWidget {
       width: width ?? double.infinity,
       child: TextFormField(
         onTap: () async {
-          DateTime date = DateTime.now();
           await showdatePickerDialog(
               context: context,
               onCancel: () {
                 Navigator.pop(context);
               },
-              onSave: (date){
-                controller.text = dateToString(date);
-                Navigator.pop(context);
-              },
-              date: DateTime.now());
+              onSave: onSave,
+              date: initialDate,
+              selectableDayPredicate: selectableDayPredicate,
+              firstDate: firstDate,
+              isRequiredField: isRequired);
         },
         readOnly: true,
         controller: controller,

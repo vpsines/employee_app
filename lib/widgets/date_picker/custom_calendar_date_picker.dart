@@ -783,7 +783,6 @@ class _MonthPickerState extends State<_MonthPicker> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                // const Spacer(),
                 IconButton(
                   icon: const Icon(Icons.chevron_left),
                   color: controlColor,
@@ -794,7 +793,7 @@ class _MonthPickerState extends State<_MonthPicker> {
                       _isDisplayingFirstMonth ? null : _handlePreviousMonth,
                 ),
                 SizedBox(
-                  width: size.width * 0.35,
+                  width: size.width * 0.4,
                   child: _DatePickerModeToggleButton(
                     mode: widget.mode,
                     title: _localizations

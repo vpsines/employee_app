@@ -8,9 +8,11 @@ import 'package:flutter/material.dart';
 Future<void> showdatePickerDialog(
     {required BuildContext context,
     required VoidCallback onCancel,
-    required Function(DateTime) onSave,
+    required Function(DateTime?) onSave,
     bool isRequiredField = true,
-    DateTime? date}) {
+    DateTime? date,
+    SelectableDayPredicate? selectableDayPredicate,
+    DateTime? firstDate}) {
   return showDialog<void>(
     context: context,
     builder: (BuildContext context) {
@@ -19,6 +21,7 @@ Future<void> showdatePickerDialog(
         date: date,
         isRequired: isRequiredField,
         onSave: onSave,
+        firstDate: firstDate,
       );
     },
   );
@@ -27,27 +30,38 @@ Future<void> showdatePickerDialog(
 enum DateOptions { noDate, today, nextMonday, nextTuesday, afterOneWeek, none }
 
 class _DatePickerDialog extends StatefulWidget {
-  const _DatePickerDialog({super.key, required this.onCancel, this.date,required this.isRequired,required this.onSave});
+  const _DatePickerDialog(
+      {super.key,
+      required this.onCancel,
+      this.date,
+      required this.isRequired,
+      required this.onSave,
+      this.selectableDayPredicate,
+      this.firstDate});
 
   final DateTime? date;
   final VoidCallback onCancel;
-  final Function(DateTime) onSave;
+  final Function(DateTime?) onSave;
   final bool isRequired;
+  final SelectableDayPredicate? selectableDayPredicate;
+  final DateTime? firstDate;
 
   @override
   State<_DatePickerDialog> createState() => _DatePickerDialogState();
 }
 
 class _DatePickerDialogState extends State<_DatePickerDialog> {
-  DateOptions selectedDateOption = DateOptions.noDate;
+  late DateOptions selectedDateOption;
   late DateTime _selectedDate;
 
   @override
   void initState() {
     if (widget.date != null) {
       _selectedDate = widget.date!;
+      selectedDateOption = DateOptions.none;
     } else {
-      _selectedDate = DateTime.now();
+      selectedDateOption = DateOptions.noDate;
+      _selectedDate = widget.firstDate!;
     }
     super.initState();
   }
@@ -66,16 +80,18 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
           break;
         case DateOptions.nextTuesday:
           int daysUntillTuesday = 9 - _selectedDate.weekday;
-          _selectedDate = DateTime.now().add(
+          _selectedDate = _selectedDate.add(
               Duration(days: daysUntillTuesday == 8 ? 1 : daysUntillTuesday));
           selectedDateOption = DateOptions.nextTuesday;
           break;
+        case DateOptions.afterOneWeek:
+          _selectedDate = _selectedDate.add(const Duration(days: 7));
+          selectedDateOption = DateOptions.afterOneWeek;
+          break;
         case DateOptions.noDate:
-          _selectedDate = DateTime.now(); // TODO : need to assign null
           selectedDateOption = DateOptions.noDate;
           break;
         default:
-          _selectedDate = DateTime.now(); // TODO : need to assign null
           selectedDateOption = DateOptions.none;
           break;
       }
@@ -101,46 +117,45 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
           child: Column(
             children: [
               SizedBox(
-                height: 36,
-                child: Row(
+                height: widget.isRequired ? 72 : 36,
+                child: Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
                   children: [
-                    CustomButton(
-                      onPressed: () => onDateOptionsTap(DateOptions.noDate),
-                      buttonText: 'No date',
-                      borderRadius: 4,
-                      backgroundColor: selectedDateOption == DateOptions.noDate
-                          ? const Color(0xFF1DA1F2)
-                          : const Color(0xFFEDF8FF),
-                      textColor: selectedDateOption == DateOptions.noDate
-                          ? Colors.white
-                          : const Color(0xFF1DA1F2),
-                      width: size.width * 0.406,
-                    ),
-                    const Spacer(),
-                    CustomButton(
-                      onPressed: () => onDateOptionsTap(DateOptions.today),
-                      buttonText: 'Today',
-                      borderRadius: 4,
-                      backgroundColor: selectedDateOption == DateOptions.today
-                          ? const Color(0xFF1DA1F2)
-                          : const Color(0xFFEDF8FF),
-                      textColor: selectedDateOption == DateOptions.today
-                          ? Colors.white
-                          : const Color(0xFF1DA1F2),
-                      width: size.width * 0.406,
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: size.height * 0.017,
-              ),
-              (widget.date != null)
-                  ? SizedBox(
-                      height: 36,
-                      child: Row(
-                        children: [
-                          CustomButton(
+                    (!widget.isRequired)
+                        ? CustomButton(
+                            onPressed: () =>
+                                onDateOptionsTap(DateOptions.noDate),
+                            buttonText: 'No date',
+                            borderRadius: 4,
+                            backgroundColor:
+                                selectedDateOption == DateOptions.noDate
+                                    ? const Color(0xFF1DA1F2)
+                                    : const Color(0xFFEDF8FF),
+                            textColor: selectedDateOption == DateOptions.noDate
+                                ? Colors.white
+                                : const Color(0xFF1DA1F2),
+                            width: size.width * 0.406,
+                          )
+                        : Container(),
+                    (DateTime.now().isAfter(widget.firstDate ?? DateTime(1950)))
+                        ? CustomButton(
+                            onPressed: () =>
+                                onDateOptionsTap(DateOptions.today),
+                            buttonText: 'Today',
+                            borderRadius: 4,
+                            backgroundColor:
+                                selectedDateOption == DateOptions.today
+                                    ? const Color(0xFF1DA1F2)
+                                    : const Color(0xFFEDF8FF),
+                            textColor: selectedDateOption == DateOptions.today
+                                ? Colors.white
+                                : const Color(0xFF1DA1F2),
+                            width: size.width * 0.406,
+                          )
+                        : Container(),
+                    (widget.isRequired)
+                        ? CustomButton(
                             onPressed: () =>
                                 onDateOptionsTap(DateOptions.nextMonday),
                             buttonText: 'Next Monday',
@@ -154,9 +169,10 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
                                     ? Colors.white
                                     : const Color(0xFF1DA1F2),
                             width: size.width * 0.406,
-                          ),
-                          const Spacer(),
-                          CustomButton(
+                          )
+                        : Container(),
+                    (widget.isRequired)
+                        ? CustomButton(
                             onPressed: () =>
                                 onDateOptionsTap(DateOptions.nextTuesday),
                             buttonText: 'Next Tuesday',
@@ -170,21 +186,40 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
                                     ? Colors.white
                                     : const Color(0xFF1DA1F2),
                             width: size.width * 0.406,
-                          ),
-                        ],
-                      ),
-                    )
-                  : Container(),
+                          )
+                        : Container(),
+                    (widget.isRequired)
+                        ? CustomButton(
+                            onPressed: () =>
+                                onDateOptionsTap(DateOptions.afterOneWeek),
+                            buttonText: 'After 1 week',
+                            borderRadius: 4,
+                            backgroundColor:
+                                selectedDateOption == DateOptions.afterOneWeek
+                                    ? const Color(0xFF1DA1F2)
+                                    : const Color(0xFFEDF8FF),
+                            textColor:
+                                selectedDateOption == DateOptions.afterOneWeek
+                                    ? Colors.white
+                                    : const Color(0xFF1DA1F2),
+                            width: size.width * 0.406,
+                          )
+                        : Container(),
+                  ],
+                ),
+              ),
               picker.CalendarDatePicker(
-                  initialDate: _selectedDate,
-                  firstDate: DateTime(1950),
-                  lastDate: DateTime(2050),
-                  onDateChanged: (value) {
-                    selectedDateOption = DateOptions.none;
-                    setState(() {
-                      _selectedDate = value;
-                    });
-                  }),
+                initialDate: _selectedDate,
+                firstDate: widget.firstDate ?? DateTime(1950),
+                lastDate: DateTime(2050),
+                onDateChanged: (value) {
+                  selectedDateOption = DateOptions.none;
+                  setState(() {
+                    _selectedDate = value;
+                  });
+                },
+                selectableDayPredicate: widget.selectableDayPredicate,
+              ),
               const Divider(
                 thickness: 1,
                 color: Color(0xFFF2F2F2),
@@ -202,7 +237,10 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
                           size: 24,
                           color: Color(0xFF1DA1F2),
                         ),
-                        Text(dateToString(_selectedDate),
+                        Text(
+                            selectedDateOption == DateOptions.noDate
+                                ? 'No date'
+                                : dateToString(_selectedDate),
                             style: kInputTextStyle)
                       ],
                     ),
@@ -220,7 +258,10 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
                       width: 16,
                     ),
                     CustomButton(
-                      onPressed: () => widget.onSave(_selectedDate),
+                      onPressed: () => widget.onSave(
+                          selectedDateOption == DateOptions.noDate
+                              ? null
+                              : _selectedDate),
                       buttonText: 'Save',
                       width: size.width * 0.17,
                       height: size.height * 0.043,
