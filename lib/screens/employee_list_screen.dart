@@ -1,14 +1,16 @@
 import 'package:employee_app/constants/app_colors.dart';
 import 'package:employee_app/constants/custom_textstyles.dart';
 import 'package:employee_app/constants/images.dart';
+import 'package:employee_app/data/models/employee.dart';
 import 'package:employee_app/providers/employee_provider.dart';
+import 'package:employee_app/screens/employee_details_screen.dart';
 import 'package:employee_app/widgets/employee_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class EmployeeListScreen extends StatelessWidget {
-  static const String routeName = '/employee-list';
+  static const String routeName = '/';
 
   const EmployeeListScreen({super.key});
 
@@ -140,7 +142,10 @@ class EmployeeListScreen extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => {},
+        onPressed: () => {
+          // navigate to Employee Details screen
+              Navigator.pushNamed(context, EmployeeDetailsScreen.routeName)
+        },
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
