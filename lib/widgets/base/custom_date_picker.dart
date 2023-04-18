@@ -1,4 +1,5 @@
 import 'package:employee_app/constants/custom_textstyles.dart';
+import 'package:employee_app/utils/date_utils.dart';
 import 'package:employee_app/widgets/dialogs/date_picker_dialog.dart';
 import 'package:flutter/material.dart';
 
@@ -25,14 +26,16 @@ class CustomDatePicker extends StatelessWidget {
       child: TextFormField(
         onTap: () async {
           DateTime date = DateTime.now();
-          await showdatePickerDialog(context);
-          // await showDatePicker(
-          //   context: context, 
-          //   initialDate:date, 
-          //   firstDate: DateTime(1947), 
-          //   lastDate: DateTime(2030),
-          //   initialEntryMode: DatePickerEntryMode.calendarOnly
-          //   );
+          await showdatePickerDialog(
+              context: context,
+              onCancel: () {
+                Navigator.pop(context);
+              },
+              onSave: (date){
+                controller.text = dateToString(date);
+                Navigator.pop(context);
+              },
+              date: DateTime.now());
         },
         readOnly: true,
         controller: controller,
