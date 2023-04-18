@@ -402,13 +402,13 @@ class _DatePickerModeToggleButtonState
                             ),
                           ),
                         ),
-                        RotationTransition(
-                          turns: _controller,
-                          child: Icon(
-                            Icons.arrow_drop_down,
-                            color: controlColor,
-                          ),
-                        ),
+                        // RotationTransition(
+                        //   turns: _controller,
+                        //   child: Icon(
+                        //     Icons.arrow_drop_down,
+                        //     color: controlColor,
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),
