@@ -47,3 +47,15 @@ final kDropDownItemTextStyle = GoogleFonts.roboto(
   fontWeight: FontWeight.w400,
   color: const Color(0xFF323238)
 );
+
+final kSnackBarMessageTextStyle = GoogleFonts.roboto(
+  fontSize: 15,
+  fontWeight: FontWeight.w400,
+  color: Colors.white
+);
+
+final kSnackBarActionTextStyle = GoogleFonts.roboto(
+  fontSize: 15,
+  fontWeight: FontWeight.w400,
+  color: const Color(0xFF1DA1F2)
+);
