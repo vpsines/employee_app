@@ -1,3 +1,5 @@
+import 'package:employee_app/utils/date_utils.dart';
+
 class Employee {
   late final int id;
   final String name;
@@ -19,9 +21,9 @@ class Employee {
       'id': id,
       'name': name,
       'role': role,
-      'fromDate': fromDate,
-      'toDate': toDate,
-      'isDeleted': isDeleted
+      'fromDate': dateToString(fromDate),
+      'toDate': toDate !=null ? dateToString(toDate!):null,
+      'isDeleted': isDeleted ? 1:0
     };
   }
 
@@ -29,9 +31,9 @@ class Employee {
     return {
       'name': name,
       'role': role,
-      'fromDate': fromDate,
-      'toDate': toDate,
-      'isDeleted': isDeleted
+      'fromDate': dateToString(fromDate),
+      'toDate': toDate !=null ? dateToString(toDate!):null,
+      'isDeleted': isDeleted ? 1:0
     };
   }
 
@@ -40,8 +42,8 @@ class Employee {
         id: map['id'],
         name: map['name'],
         role: map['role'],
-        fromDate: map['fromDate'],
-        toDate: map['toDate'],
-        isDeleted: map['isDeleted']);
+        fromDate:dateFromString(map['fromDate']),
+        toDate: map['toDate'] !=null ? dateFromString(map['toDate']):null,
+        isDeleted: map['isDeleted'] >0 );
   }
 }

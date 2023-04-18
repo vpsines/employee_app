@@ -40,7 +40,7 @@ class DatabaseHelper {
             $columnName TEXT NOT NULL,
             $columnRole TEXT NOT NULL,
             $columnFromDate TEXT NOT NULL,
-            $columnToDate TEXT NOT NULL,
+            $columnToDate TEXT NULL,
             $columnIsDeleted BOOLEAN NOT NULL CHECK ($columnIsDeleted in (0,1)) 
           )
           ''');
