@@ -30,10 +30,12 @@ class _EmployeeDetailsScreenState extends State<EmployeeDetailsScreen> {
   late TextEditingController roleController;
   late TextEditingController fromDateController;
   late TextEditingController toDateController;
+  late GlobalKey<FormState> _employeeFormKey; 
 
   @override
   void initState() {
     super.initState();
+    _employeeFormKey = GlobalKey<FormState>();
     // if edit mode, initialize controllers
     if (widget.isEdit) {
       nameController = TextEditingController(text: widget.employee?.name);
@@ -64,7 +66,6 @@ class _EmployeeDetailsScreenState extends State<EmployeeDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    final _employeeFormKey = GlobalKey<FormState>();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -176,6 +177,8 @@ class _EmployeeDetailsScreenState extends State<EmployeeDetailsScreen> {
                               if (widget.isEdit) {
                                 // TODO: edit employee
                               } else {
+                                employeeProvider.employees.add(data);
+                                Navigator.pop(context);
                                 // TODO: add employee
                               }
                             }

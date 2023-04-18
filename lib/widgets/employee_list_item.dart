@@ -17,8 +17,18 @@ class EmployeeListItem extends StatelessWidget {
       background: Container(
         width: size.width *0.25,
         color: const Color(0xFFF34642),
-        // child: Icon(Icons.dust),
+        child: Row(
+          children:  [
+            const Spacer(),
+             Padding(
+               padding: EdgeInsets.only(right: size.width * 0.1),
+               child:const Icon(Icons.delete_outline_outlined,color: Colors.white,size: 30,),
+             ),
+             
+          ],
+        ),
       ),
+      direction: DismissDirection.endToStart,
       onDismissed: (direction){
 
       },
