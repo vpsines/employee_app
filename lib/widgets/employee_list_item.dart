@@ -1,7 +1,11 @@
+import 'package:employee_app/constants/app_icons.dart';
 import 'package:employee_app/constants/custom_textstyles.dart';
 import 'package:employee_app/data/models/employee.dart';
+import 'package:employee_app/providers/employee_provider.dart';
 import 'package:employee_app/screens/employee_details_screen.dart';
+import 'package:employee_app/utils/date_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class EmployeeListItem extends StatelessWidget {
   final Employee employee;
@@ -15,22 +19,25 @@ class EmployeeListItem extends StatelessWidget {
     return Dismissible(
       key: ValueKey<Employee>(employee),
       background: Container(
-        width: size.width *0.25,
+        width: size.width * 0.25,
         color: const Color(0xFFF34642),
         child: Row(
-          children:  [
+          children: [
             const Spacer(),
-             Padding(
-               padding: EdgeInsets.only(right: size.width * 0.1),
-               child:const Icon(Icons.delete_outline_outlined,color: Colors.white,size: 30,),
-             ),
-             
+            Padding(
+              padding: EdgeInsets.only(right: size.width * 0.1),
+              child: const Icon(
+                AppIcons.trash_empty,
+                color: Colors.white,
+                size: 20,
+              ),
+            ),
           ],
         ),
       ),
       direction: DismissDirection.endToStart,
-      onDismissed: (direction){
-
+      onDismissed: (direction) {
+        deleteEmployee(context);
       },
       child: ListTile(
         contentPadding: EdgeInsets.only(
@@ -56,16 +63,24 @@ class EmployeeListItem extends StatelessWidget {
               height: 5,
             ),
             Text(
-              '21 Sep, 2022 - 22 Sep,2023',
+              employee.toDate != null
+                  ? '${dateToString2(employee.fromDate)} - ${dateToString2(employee.toDate!)}'
+                  : 'From ${dateToString2(employee.fromDate)}',
               style: kListItemSubTitleTextStyle,
             )
           ],
         ),
-        onTap: (){
+        onTap: () {
           // navigate  to EmployeeDetailsScreen
-          Navigator.pushNamed(context, EmployeeDetailsScreen.routeName,arguments: employee);
+          Navigator.pushNamed(context, EmployeeDetailsScreen.routeName,
+              arguments: employee);
         },
       ),
     );
+  }
+
+  Future<void> deleteEmployee(context) async {
+    await Provider.of<EmployeeProvider>(context, listen: false)
+        .deleteEmployee(employee, context);
   }
 }
