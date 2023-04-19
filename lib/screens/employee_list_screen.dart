@@ -5,6 +5,7 @@ import 'package:employee_app/providers/employee_provider.dart';
 import 'package:employee_app/screens/employee_details_screen.dart';
 import 'package:employee_app/widgets/employee_list_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -26,7 +27,6 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
 
     return Scaffold(
       appBar: AppBar(
@@ -40,17 +40,14 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
         builder: (context, employeeProvider, child) {
           return (employeeProvider.employees.isEmpty)
               ? Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: size.width * 0.19,
-                      vertical: size.height * 0.26),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 80.w),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Image.asset(
                         Images.noRecordsFound,
-                        width: size.width * 0.612,
-                        height: size.height * 0.237,
                       ),
                       Text(
                         'No employee records found',
@@ -68,11 +65,8 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
-                                  padding: EdgeInsets.only(
-                                    top: size.height * 0.017,
-                                    left: size.width * 0.04,
-                                    bottom: size.height * 0.017,
-                                  ),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 16.w, vertical: 16.h),
                                   child: Text(
                                     'Current employees',
                                     style: kBodyTitleTextStyle,
@@ -104,11 +98,8 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Padding(
-                                  padding: EdgeInsets.only(
-                                    top: size.height * 0.017,
-                                    left: size.width * 0.04,
-                                    bottom: size.height * 0.017,
-                                  ),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 16.w, vertical: 16.h),
                                   child: Text(
                                     'Previous employees',
                                     style: kBodyTitleTextStyle,
@@ -137,12 +128,12 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
                           : Container(),
                       Padding(
                         padding: EdgeInsets.only(
-                            top: size.height * 0.013, left: size.width * 0.037),
+                            top: 12.h, left: 16.w),
                         child: Text(
                           'Swipe left to delete',
                           style: GoogleFonts.roboto(
                               color: const Color(0XFF949C9E),
-                              fontSize: 15,
+                              fontSize: 15.sp,
                               fontWeight: FontWeight.w400),
                         ),
                       )

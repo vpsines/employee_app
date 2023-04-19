@@ -9,6 +9,7 @@ import 'package:employee_app/widgets/base/custom_date_picker.dart';
 import 'package:employee_app/widgets/base/custom_dropdown.dart';
 import 'package:employee_app/widgets/base/custom_textfield.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 class EmployeeDetailsScreen extends StatefulWidget {
@@ -69,7 +70,6 @@ class _EmployeeDetailsScreenState extends State<EmployeeDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -87,11 +87,11 @@ class _EmployeeDetailsScreenState extends State<EmployeeDetailsScreen> {
             children: [
               Expanded(
                   child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: size.width * 0.037),
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
                 child: Column(
                   children: [
                     SizedBox(
-                      height: size.height * 0.026,
+                      height: 23.h,
                     ),
                     CustomTextField(
                       controller: nameController,
@@ -99,7 +99,7 @@ class _EmployeeDetailsScreenState extends State<EmployeeDetailsScreen> {
                       leadingIcon: Icons.person_outline,
                     ),
                     SizedBox(
-                      height: size.height * 0.026,
+                      height: 23.h,
                     ),
                     CustomDropDown(
                       items: AppConstants.roles,
@@ -109,64 +109,59 @@ class _EmployeeDetailsScreenState extends State<EmployeeDetailsScreen> {
                       trailingIcon: Icons.arrow_drop_down_rounded,
                     ),
                     SizedBox(
-                      height: size.height * 0.026,
+                      height: 23.h,
                     ),
-                    SizedBox(
-                      height: size.height * 0.075,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CustomDatePicker(
-                            leadingIcon: Icons.event,
-                            controller: fromDateController,
-                            hintText: 'From date',
-                            width: size.width * 0.4,
-                            initialDate: fromdate,
-                            onSave: (date) {
-                              Navigator.pop(context);
-                              fromdate = date!;
-                              fromDateController.text = (date != null)
-                                  ? dateToString(date)
-                                  : 'No date';
-                              setState(() {});
-                            },
-                          ),
-                          const Icon(
-                            Icons.arrow_forward,
-                            size: 20,
-                            color: Color(0xFF1DA1F2),
-                          ),
-                          CustomDatePicker(
-                            leadingIcon: Icons.event,
-                            controller: toDateController,
-                            hintText: 'No date',
-                            width: size.width * 0.4,
-                            firstDate: fromdate.add(const Duration(days: 1)),
-                            initialDate: toDate,
-                            onSave: (date) {
-                              Navigator.pop(context);
-                              toDate = date;
-                              toDateController.text = (date != null)
-                                  ? dateToString(date)
-                                  : 'No date';
-                              setState(() {});
-                            },
-                            isRequired: false,
-                          ),
-                        ],
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CustomDatePicker(
+                          leadingIcon: Icons.event,
+                          controller: fromDateController,
+                          hintText: 'From date',
+                          width: 172.w,
+                          initialDate: fromdate,
+                          onSave: (date) {
+                            Navigator.pop(context);
+                            fromdate = date!;
+                            fromDateController.text =
+                                (date != null) ? dateToString(date) : 'No date';
+                            setState(() {});
+                          },
+                        ),
+                        const Icon(
+                          Icons.arrow_forward,
+                          size: 20,
+                          color: Color(0xFF1DA1F2),
+                        ),
+                        CustomDatePicker(
+                          leadingIcon: Icons.event,
+                          controller: toDateController,
+                          hintText: 'No date',
+                          width: 172.w,
+                          firstDate: fromdate.add(const Duration(days: 1)),
+                          initialDate: toDate,
+                          onSave: (date) {
+                            Navigator.pop(context);
+                            toDate = date;
+                            toDateController.text =
+                                (date != null) ? dateToString(date) : 'No date';
+                            setState(() {});
+                          },
+                          isRequired: false,
+                        ),
+                      ],
                     )
                   ],
                 ),
               )),
               Column(
                 children: [
-                  Container(
-                    height: 2,
+                  Divider(
+                    height: 2.w,
                     color: const Color(0xFFF2F2F2),
                   ),
-                  SizedBox(
-                    height: size.height * 0.07,
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 12.h),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -176,14 +171,14 @@ class _EmployeeDetailsScreenState extends State<EmployeeDetailsScreen> {
                             Navigator.pop(context);
                           },
                           buttonText: 'Cancel',
-                          width: size.width * 0.17,
-                          height: size.height * 0.043,
                           textColor: const Color(0XFF1DA1F2),
                           backgroundColor: const Color(0xFFEDF8FF),
-                          borderRadius: 6,
+                          borderRadius: 6.r,
+                          padding: EdgeInsets.symmetric(
+                              vertical: 12.h, horizontal: 21.w),
                         ),
                         SizedBox(
-                          width: size.width * 0.037,
+                          width: 16.w,
                         ),
                         CustomButton(
                           onPressed: () async {
@@ -220,12 +215,12 @@ class _EmployeeDetailsScreenState extends State<EmployeeDetailsScreen> {
                             }
                           },
                           buttonText: 'Save',
-                          width: size.width * 0.17,
-                          height: size.height * 0.043,
-                          borderRadius: 6,
+                          borderRadius: 6.r,
+                          padding: EdgeInsets.symmetric(
+                              vertical: 12.h, horizontal: 21.w),
                         ),
                         SizedBox(
-                          width: size.width * 0.037,
+                          width: 16.w,
                         ),
                       ],
                     ),

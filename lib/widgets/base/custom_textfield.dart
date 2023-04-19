@@ -1,5 +1,7 @@
+import 'package:employee_app/constants/app_colors.dart';
 import 'package:employee_app/constants/custom_textstyles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
@@ -24,18 +26,18 @@ class CustomTextField extends StatelessWidget {
         controller: controller,
         style: kInputTextStyle,
         decoration: InputDecoration(
+            contentPadding: EdgeInsets.symmetric(vertical: 10.h),
             hintText: hintText,
             hintStyle: kHintTextStyle,
             prefixIcon: leadingIcon != null
                 ? Icon(
                     leadingIcon,
-                    size: 24,
-                    color: const Color(0xFF1DA1F2),
+                    color: kLeadingIconColor,
                   )
                 : Container(),
             border: const OutlineInputBorder(
                 borderSide: BorderSide(
-              color: Color(0xFFE5E5E5),
+              color: kTextFieldBorderColor,
               width: 1,
             ))),
       ),

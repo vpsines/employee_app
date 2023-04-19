@@ -5,6 +5,7 @@ import 'package:employee_app/providers/employee_provider.dart';
 import 'package:employee_app/screens/employee_details_screen.dart';
 import 'package:employee_app/utils/date_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 class EmployeeListItem extends StatelessWidget {
@@ -14,18 +15,17 @@ class EmployeeListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
 
     return Dismissible(
       key: ValueKey<Employee>(employee),
       background: Container(
-        width: size.width * 0.25,
+        width: 230.w,
         color: const Color(0xFFF34642),
         child: Row(
           children: [
             const Spacer(),
             Padding(
-              padding: EdgeInsets.only(right: size.width * 0.1),
+              padding: EdgeInsets.only(right: 16.w),
               child: const Icon(
                 AppIcons.trash_empty,
                 color: Colors.white,
@@ -40,10 +40,7 @@ class EmployeeListItem extends StatelessWidget {
         deleteEmployee(context);
       },
       child: ListTile(
-        contentPadding: EdgeInsets.only(
-            top: 0.017 * size.height,
-            bottom: 0.017 * size.height,
-            left: 0.037 * size.width),
+        contentPadding: EdgeInsets.only(top: 16.h, bottom: 16.h, left: 16.w),
         tileColor: Colors.white,
         title: Text(
           employee.name,
@@ -52,15 +49,15 @@ class EmployeeListItem extends StatelessWidget {
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(
-              height: 5,
+            SizedBox(
+              height: 6.h,
             ),
             Text(
               employee.role,
               style: kListItemSubTitleTextStyle,
             ),
-            const SizedBox(
-              height: 5,
+            SizedBox(
+              height: 6.h,
             ),
             Text(
               employee.toDate != null
