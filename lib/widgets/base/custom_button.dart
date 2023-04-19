@@ -10,6 +10,7 @@ class CustomButton extends StatelessWidget {
   final double borderRadius;
   final double? width;
   final double? height;
+  final EdgeInsets? padding;
 
   const CustomButton(
       {super.key,
@@ -19,27 +20,37 @@ class CustomButton extends StatelessWidget {
       this.textColor = Colors.white,
       this.borderRadius = 10,
       this.height,
-      this.width});
+      this.width,
+      this.padding});
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: width ?? double.infinity,
-      height: height ?? 40.h,
-      child: TextButton(
-          onPressed: onPressed,
-          style: TextButton.styleFrom(
-              backgroundColor: backgroundColor,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(borderRadius))),
-          child: Text(
-            buttonText,
-            style: GoogleFonts.roboto(
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w500,
-              color: textColor,
+    return TextButton(
+        onPressed: onPressed,
+        // style: TextButton.styleFrom(
+        //   padding: EdgeInsets.symmetric(horizontal: 21.w,vertical: 12.h),
+        //     backgroundColor: backgroundColor,
+        //     shape: RoundedRectangleBorder(
+        //         borderRadius: BorderRadius.circular(borderRadius))),
+        style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(backgroundColor),
+            shape: MaterialStateProperty.all(
+              RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(borderRadius)),
             ),
-          )),
-    );
+            fixedSize: width != null
+                ? MaterialStateProperty.all(Size(width!, 40.h))
+                : null,
+            padding: padding != null
+                ? MaterialStateProperty.all(padding)
+                : MaterialStateProperty.all(EdgeInsets.zero)),
+        child: Text(
+          buttonText,
+          style: GoogleFonts.roboto(
+            fontSize: 14.sp,
+            fontWeight: FontWeight.w500,
+            color: textColor,
+          ),
+        ));
   }
 }

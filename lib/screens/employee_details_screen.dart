@@ -174,7 +174,8 @@ class _EmployeeDetailsScreenState extends State<EmployeeDetailsScreen> {
                           textColor: const Color(0XFF1DA1F2),
                           backgroundColor: const Color(0xFFEDF8FF),
                           borderRadius: 6.r,
-                          width: 73.w,
+                          padding: EdgeInsets.symmetric(
+                              vertical: 12.h, horizontal: 21.w),
                         ),
                         SizedBox(
                           width: 16.w,
@@ -214,8 +215,9 @@ class _EmployeeDetailsScreenState extends State<EmployeeDetailsScreen> {
                             }
                           },
                           buttonText: 'Save',
-                          width: 73.w,
                           borderRadius: 6.r,
+                          padding: EdgeInsets.symmetric(
+                              vertical: 12.h, horizontal: 21.w),
                         ),
                         SizedBox(
                           width: 16.w,

@@ -41,10 +41,10 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
           return (employeeProvider.employees.isEmpty)
               ? Padding(
                   padding:
-                      EdgeInsets.symmetric(horizontal: 80.w, vertical: 240.h),
+                      EdgeInsets.symmetric(horizontal: 80.w),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Image.asset(
                         Images.noRecordsFound,
