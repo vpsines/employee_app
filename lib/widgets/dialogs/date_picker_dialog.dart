@@ -213,7 +213,7 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
                     ),
                     SizedBox(height:24.h),
                     SizedBox(
-                      height: 330.h,
+                      height: 320.h,
                       child: picker.CalendarDatePicker(
                         initialDate: _selectedDate,
                         firstDate: widget.firstDate ?? DateTime(1950),
